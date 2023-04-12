@@ -6,6 +6,7 @@ import * as Yup from 'yup';
 
 import LoginImg from '../../assets/login-image.svg';
 import Logo from '../../assets/logo.svg';
+import api from '../../services/api';
 import {
   Container,
   LoginImage,
@@ -38,7 +39,12 @@ function Login() {
   const errorPassword = errors.password && errors.password.message;
   const errorEmail = errors.email && errors.email.message;
 
-  const onSubmit = data => console.log(data);
+  const onSubmit = async userData => {
+    const response = await api.post('sessions', {
+      email: userData.email,
+      password: userData.password
+    });
+  };
 
   return (
     <Container>
