@@ -4,8 +4,8 @@ import PropTypes from 'prop-types';
 
 import { ContainerButton } from './styles';
 
-function Button({ children }) {
-  return <ContainerButton>{children}</ContainerButton>;
+function Button({ children, ...props }) {
+  return <ContainerButton {...props}>{children}</ContainerButton>;
 }
 
 export default Button;
