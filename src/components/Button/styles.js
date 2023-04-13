@@ -12,8 +12,6 @@ export const ContainerButton = styled.button`
   line-height: 19px;
   text-align: center;
   color: #eeeeee;
-  margin-top: 75px;
-  margin-bottom: 25px;
 
   &:hover {
     opacity: 0.8;
