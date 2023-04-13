@@ -4,13 +4,13 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
 
-import LoginImg from '../../assets/login-image.svg';
 import Logo from '../../assets/logo.svg';
+import RegisterImg from '../../assets/register-image.svg';
 import Button from '../../components/Button';
 import api from '../../services/api';
 import {
   Container,
-  LoginImage,
+  RegisterImage,
   ContainerItens,
   Label,
   Input,
@@ -18,14 +18,18 @@ import {
   ErrorMessage
 } from './styles';
 
-function Login() {
+function Register() {
   const schema = Yup.object().shape({
+    name: Yup.string().required('O seu nome é obrigatório'),
     email: Yup.string()
       .email('Digite um e-mail válido')
       .required('O e-mail é obrigatório'),
     password: Yup.string()
       .required('A senha é obrigatória')
-      .min(6, 'A senha deve conter no mínimo 6 caracteres')
+      .min(6, 'A senha deve conter no mínimo 6 caracteres'),
+    confirmPassword: Yup.string()
+      .required('Confirme sua senha')
+      .oneOf([Yup.ref('password')], 'As senhas devem ser iguais')
   });
 
   const {
@@ -37,28 +41,38 @@ function Login() {
   });
 
   const errorPassword = errors.password && errors.password.message;
+  const errorConfirmPassword =
+    errors.confirmPassword && errors.confirmPassword.message;
   const errorEmail = errors.email && errors.email.message;
+  const errorName = errors.name && errors.name.message;
 
   const onSubmit = async userData => {
-    const response = await api.post('sessions', {
+    const response = await api.post('users', {
+      name: userData.name,
       email: userData.email,
       password: userData.password
     });
+
+    console.log('response', response);
   };
 
   return (
     <Container>
-      <LoginImage src={LoginImg} alt="login-image" />
+      <RegisterImage src={RegisterImg} alt="register-image" />
       <ContainerItens>
         <img src={Logo} alt="Logo" />
-        <h1>Login</h1>
+        <h1>Cadastre-se</h1>
 
         <form noValidate onSubmit={handleSubmit(onSubmit)}>
-          <Label>Email</Label>
+          <Label error={errorName}> Nome </Label>
+          <Input type="text" {...register('name')} error={errorName} />
+          <ErrorMessage>{errorName}</ErrorMessage>
+
+          <Label error={errorEmail}> Email </Label>
           <Input type="email" {...register('email')} error={errorEmail} />
           <ErrorMessage>{errorEmail}</ErrorMessage>
 
-          <Label>Senha</Label>
+          <Label error={errorPassword}> Senha </Label>
           <Input
             type="password"
             {...register('password')}
@@ -66,16 +80,24 @@ function Login() {
           />
           <ErrorMessage>{errorPassword}</ErrorMessage>
 
-          <Button type="submit" style={{ marginTop: 75, marginBottom: 25 }}>
-            Sign In
+          <Label error={errorConfirmPassword}> Confirmar senha </Label>
+          <Input
+            type="password"
+            {...register('confirmPassword')}
+            error={errorConfirmPassword}
+          />
+          <ErrorMessage>{errorConfirmPassword}</ErrorMessage>
+
+          <Button type="submit" style={{ marginTop: 30, marginBottom: 25 }}>
+            Sign Up
           </Button>
         </form>
         <SignInLink>
-          Não possui conta? <a>Cadastrar</a>
+          Já possui conta? <a>Entrar</a>
         </SignInLink>
       </ContainerItens>
     </Container>
   );
 }
 
-export default Login;
+export default Register;
