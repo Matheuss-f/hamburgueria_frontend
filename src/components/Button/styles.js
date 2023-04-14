@@ -15,6 +15,7 @@ export const ContainerButton = styled.button`
 
   &:hover {
     opacity: 0.8;
+    transition: 0.5s;
   }
 
   &:active {
