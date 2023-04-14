@@ -9,7 +9,6 @@ export const Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  object-fit: contain;
 `;
 export const RegisterImage = styled.img`
   height: 70%;
