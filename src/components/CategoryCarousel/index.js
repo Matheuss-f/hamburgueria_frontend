@@ -24,7 +24,7 @@ function CategoryCarousel() {
 
   return (
     <Container>
-      <CategoryImg src={Category} alt="logo-home" />
+      <CategoryImg src={Category} alt="logo-categories" />
 
       <Carousel
         itemsToShow={4}
