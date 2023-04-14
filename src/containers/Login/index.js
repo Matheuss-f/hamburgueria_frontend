@@ -8,6 +8,7 @@ import * as Yup from 'yup';
 import LoginImg from '../../assets/login-image.svg';
 import Logo from '../../assets/logo.svg';
 import Button from '../../components/Button';
+import { useUser } from '../../hooks/UserContext';
 import api from '../../services/api';
 import {
   Container,
@@ -20,6 +21,8 @@ import {
 } from './styles';
 
 function Login() {
+  const { putUserData } = useUser();
+
   const schema = Yup.object().shape({
     email: Yup.string()
       .email('Digite um e-mail válido')
@@ -40,11 +43,11 @@ function Login() {
   const errorPassword = errors.password && errors.password.message;
   const errorEmail = errors.email && errors.email.message;
 
-  const onSubmit = async userData => {
-    const response = await toast.promise(
+  const onSubmit = async clientData => {
+    const { data } = await toast.promise(
       api.post('sessions', {
-        email: userData.email,
-        password: userData.password
+        email: clientData.email,
+        password: clientData.password
       }),
       {
         pending: 'Verificando seus dados',
@@ -52,6 +55,8 @@ function Login() {
         error: 'Algo deu errado! Tente novamente.'
       }
     );
+
+    putUserData(data);
   };
 
   return (
