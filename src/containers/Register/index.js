@@ -105,7 +105,7 @@ function Register() {
           <ErrorMessage>{errorConfirmPassword}</ErrorMessage>
 
           <Button type="submit" style={{ marginTop: 30, marginBottom: 25 }}>
-            Sign Up
+            Cadastrar
           </Button>
         </form>
         <SignInLink>

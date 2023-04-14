@@ -1,6 +1,6 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -23,6 +23,7 @@ import {
 
 function Login() {
   const { putUserData } = useUser();
+  const history = useHistory();
 
   const schema = Yup.object().shape({
     email: Yup.string()
@@ -58,6 +59,10 @@ function Login() {
     );
 
     putUserData(data);
+
+    setTimeout(() => {
+      history.push('/');
+    }, 1000);
   };
 
   return (
@@ -81,7 +86,7 @@ function Login() {
           <ErrorMessage>{errorPassword}</ErrorMessage>
 
           <Button type="submit" style={{ marginTop: 75, marginBottom: 25 }}>
-            Sign In
+            Entrar
           </Button>
         </form>
         <SignInLink>
